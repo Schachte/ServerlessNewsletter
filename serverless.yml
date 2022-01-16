@@ -6,7 +6,6 @@ frameworkVersion: '2'
 plugins:
   - serverless-bundle
   - serverless-cloudformation-sub-variables
-
 custom:
   SubscribedUsersTable:
     name: !Ref UsersSubscriptionTable
