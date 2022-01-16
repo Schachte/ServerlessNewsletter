@@ -1,0 +1,10 @@
+Resources:
+  RetrieveAllSubscribersLambdaPermissionApiGateway:
+    Type: 'AWS::Lambda::Permission'
+    DependsOn:
+      - ApiGatewayRestApi
+    Properties:
+      FunctionName: { "Fn::GetAtt": [ RetrieveAllSubscribersLambdaFunction, Arn ] }
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: arn:aws:execute-api:us-west-2:${AWS::AccountId}:#{ApiGatewayRestApi}/*/GET/users

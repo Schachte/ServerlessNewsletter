@@ -1,0 +1,6 @@
+createEmailEntry:
+  handler: src/Email.addUser
+  events:
+    - http:
+        method: POST
+        path: /subscribe

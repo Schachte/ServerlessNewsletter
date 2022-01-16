@@ -1,0 +1,13 @@
+Resources:
+  UsersSubscriptionReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Sid: AllowDynamoDBReadAccessFromLambda
+            Effect: Allow
+            Action:
+              - dynamodb:*
+            Resource: "*"

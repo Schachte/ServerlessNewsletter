@@ -1,0 +1,13 @@
+Resources:
+  UsersSubscriptionReadAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref UsersSubscriptionReadPolicy

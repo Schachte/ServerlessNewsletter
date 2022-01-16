@@ -5,6 +5,14 @@ frameworkVersion: '2'
 
 plugins:
   - serverless-bundle
+  - serverless-cloudformation-sub-variables
+
+custom:
+  SubscribedUsersTable:
+    name: !Ref UsersSubscriptionTable
+    arn: !GetAtt UsersSubscriptionTable.Arn
+  bundle:
+    linting: false
 
 provider:
   name: aws
@@ -18,36 +26,14 @@ provider:
   iam:
     role:
       statements:
-        - ${file(resources/iam/UsersSubscriptionTable.yml):UsersSubscriptionTableIAM}
-
-# resources:
-#   - ${file(resources/iam/UserRetrievalLambdaPolicy.yml)}
-#   # Resources:
-#   #   UsersSubscriptionTable: ${file(resources/dynamo/UsersSubscriptionTable.yml):UsersSubscriptionTable}
-
-resources:
-  - ${file(resources/dynamo/UsersSubscriptionTable.yml)}
-  - ${file(resources/iam/UserRetrievalLambdaPolicy.yml)}
+        - ${file(resources/iam/RoleStatements.yml):UsersSubscriptionTableIAM}
 
 functions:
-  createEmailEntry:
-    handler: src/Email.addUser
-    events:
-      - http:
-          method: POST
-          path: /subscribe
-  retrieveAllSubscribers:
-    handler: src/Email.getUsers
-    events:
-      - http:
-          method: GET
-          path: /users
+  - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
+  - ${file(resources/lambda/NewSubscriberLambda.yml)}
 
-custom:
-  SubscribedUsersTable:
-    name: !Ref UsersSubscriptionTable
-    arn: !GetAtt UsersSubscriptionTable.Arn
-  ApiGatewayId:
-    retrieve: !Ref ApiGatewayResourceUsers
-  bundle:
-    linting: false
+resources:
+  - ${file(resources/dynamo/Tables.yml)}
+  - ${file(resources/iam/LambdaPermissions.yml)}
+  - ${file(resources/iam/Policies.yml)}
+  - ${file(resources/iam/Roles.yml)}

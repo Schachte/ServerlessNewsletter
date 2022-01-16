@@ -1,0 +1,6 @@
+retrieveAllSubscribers:
+  handler: src/Email.getUsers
+  events:
+    - http:
+        method: GET
+        path: /users
