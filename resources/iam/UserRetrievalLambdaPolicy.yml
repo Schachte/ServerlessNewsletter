@@ -29,8 +29,9 @@ Resources:
       FunctionName: { "Fn::GetAtt": [ RetrieveAllSubscribersLambdaFunction, Arn ] }
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: 
+      SourceArn:
         !Join
-          - "/"
-          - - 'arn:aws:execute-api:us-west-2:12345'
-            - 'other stuff'
+          - ''
+          - - 'arn:aws:execute-api:us-west-2:185871847164'
+            - !Ref ApiGatewayRestApi
+            - '/*/GET/users'
