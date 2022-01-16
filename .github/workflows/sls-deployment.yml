@@ -1,25 +1,27 @@
-name: Deploy Serverless Infrastructure
+name: GitHub Actions Deploy Prod
 on:
   push:
     branches:
       - master
 jobs:
-  deploy-master:
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
-
-      - name: Install Dependencies
-        run: >
-          npm install serverless && \
-          npm serverless plugin install -n serverless-bundle && \
-          npm serverless plugin install -n serverless-cloudformation-sub-variables
-
-      - name: Serverless AWS authentication
-        run: npx serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Deploy
-        run: npm run deploy
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run build
+      - run: node ./node_modules/serverless/bin/serverless.js config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - run: node ../../node_modules/serverless/bin/serverless.js deploy --stage prod --verbose
+        working-directory: .
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SLS_DEBUG: 1
