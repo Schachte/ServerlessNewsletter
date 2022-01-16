@@ -1,0 +1,36 @@
+Resources:
+  UsersSubscriptionReadAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref UsersSubscriptionReadPolicy
+  UsersSubscriptionReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Sid: AllowDynamoDBReadAccessFromLambda
+            Effect: Allow
+            Action:
+              - dynamodb:*
+            Resource: "*"
+  RetrieveAllSubscribersLambdaPermissionApiGateway:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: { "Fn::GetAtt": [ RetrieveAllSubscribersLambdaFunction, Arn ] }
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: 
+        !Join
+          - "/"
+          - - 'arn:aws:execute-api:us-west-2:12345'
+            - 'other stuff'

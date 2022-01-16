@@ -1,0 +1,7 @@
+UsersSubscriptionTableIAM:
+  Effect: Allow
+  Action: 
+    - dynamodb:PutItem 
+    - dynamodb:scan
+  Resource:
+    - ${self:custom.SubscribedUsersTable.arn}

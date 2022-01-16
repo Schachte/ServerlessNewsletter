@@ -1,0 +1,53 @@
+service: newsletter
+variablesResolutionMode: 20210326
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-bundle
+
+provider:
+  name: aws
+  lambdaHashingVersion: 20201221
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: us-west-2
+  environment:
+    SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
+  iam:
+    role:
+      statements:
+        - ${file(resources/iam/UsersSubscriptionTable.yml):UsersSubscriptionTableIAM}
+
+# resources:
+#   - ${file(resources/iam/UserRetrievalLambdaPolicy.yml)}
+#   # Resources:
+#   #   UsersSubscriptionTable: ${file(resources/dynamo/UsersSubscriptionTable.yml):UsersSubscriptionTable}
+
+resources:
+  - ${file(resources/dynamo/UsersSubscriptionTable.yml)}
+  - ${file(resources/iam/UserRetrievalLambdaPolicy.yml)}
+
+functions:
+  createEmailEntry:
+    handler: src/Email.addUser
+    events:
+      - http:
+          method: POST
+          path: /subscribe
+  retrieveAllSubscribers:
+    handler: src/Email.getUsers
+    events:
+      - http:
+          method: GET
+          path: /users
+
+custom:
+  SubscribedUsersTable:
+    name: !Ref UsersSubscriptionTable
+    arn: !GetAtt UsersSubscriptionTable.Arn
+  ApiGatewayId:
+    retrieve: !Ref ApiGatewayResourceUsers
+  bundle:
+    linting: false

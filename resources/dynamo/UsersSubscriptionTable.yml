@@ -1,0 +1,15 @@
+Resources:
+  UsersSubscriptionTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: SubscribedUsers-${self:provider.stage}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions: 
+        - 
+          AttributeName: email
+          AttributeType: S
+
+      # Specifies the email as the partition key (primary key)
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
