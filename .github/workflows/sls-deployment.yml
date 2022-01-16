@@ -1,4 +1,4 @@
-name: GitHub Actions Deploy Prod
+name: Serverless Deployment Dev
 on:
   push:
     branches:
