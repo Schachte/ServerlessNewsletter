@@ -18,7 +18,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: node ./node_modules/serverless/bin/serverless.js plugin install -n serverless-bundle
-      - run: node ./node_modules/serverless/bin/serverless.js plugin install -n serverless-cloudformation-sub-variables-bundle
       - run: node ./node_modules/serverless/bin/serverless.js config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - run: node ./node_modules/serverless/bin/serverless.js deploy --verbose
         working-directory: /home/runner/work/ServerlessNewsletter/ServerlessNewsletter/
