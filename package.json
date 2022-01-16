@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Schachte/ServerlessLambdaSetup#readme",
   "dependencies": {
-    "serverless": "^2.71.0"
+    "serverless": "^2.71.0",
+    "serverless-cloudformation-sub-variables": "^0.2.1"
   }
 }
