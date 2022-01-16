@@ -6,8 +6,21 @@ Resources:
         Statement:
         - Effect: Allow
           Principal:
-            AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+            Service: lambda.amazonaws.com
           Action:
           - sts:AssumeRole
       ManagedPolicyArns:
-        - !Ref UsersSubscriptionReadPolicy
+        - !Ref FullDatabaseAccess
+  ServerlessRootAccess:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref FullLambdaAccess
+        - !Ref FullDatabaseAccess

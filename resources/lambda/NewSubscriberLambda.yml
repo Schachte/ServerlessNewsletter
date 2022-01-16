@@ -1,5 +1,6 @@
 createEmailEntry:
   handler: src/Email.addUser
+  role: ServerlessRootAccess
   events:
     - http:
         method: POST

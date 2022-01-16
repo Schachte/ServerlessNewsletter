@@ -23,14 +23,11 @@ provider:
   region: us-west-2
   environment:
     SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
-  iam:
-    role:
-      statements:
-        - ${file(resources/iam/RoleStatements.yml):UsersSubscriptionTableIAM}
 
 functions:
   - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
   - ${file(resources/lambda/NewSubscriberLambda.yml)}
+  - ${file(resources/lambda/SendMail.yml)}
 
 resources:
   - ${file(resources/dynamo/Tables.yml)}

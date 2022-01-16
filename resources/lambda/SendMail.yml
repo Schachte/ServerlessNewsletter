@@ -1,0 +1,7 @@
+sendMail:
+  handler: src/Email.sendMail
+  role: ServerlessRootAccess
+  events:
+    - http:
+        method: GET
+        path: /send

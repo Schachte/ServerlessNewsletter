@@ -4,7 +4,7 @@ Resources:
     DependsOn:
       - ApiGatewayRestApi
     Properties:
-      FunctionName: { "Fn::GetAtt": [ RetrieveAllSubscribersLambdaFunction, Arn ] }
+      FunctionName: { "Fn::GetAtt": [ SendMailLambdaFunction, Arn ] }
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: arn:aws:execute-api:us-west-2:${AWS::AccountId}:#{ApiGatewayRestApi}/*/GET/users
+      SourceArn: arn:aws:lambda:us-west-2:185871847164:function:newsletter-dev-sendMail

@@ -4,6 +4,8 @@ import commonMiddleware from '../lib/CommonMiddleware'
 const { v4: uuidv4 } = require('uuid');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+const lambda = new AWS.Lambda();
+
 
 export const addUser = commonMiddleware(async (evt, ctx) => {
   const { email } = evt.body;
@@ -35,6 +37,7 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
 })
 
 export const getUsers = commonMiddleware(async (evt, ctx) => {
+  console.log("invocation executed")
   let users;
 
   try {
@@ -50,6 +53,17 @@ export const getUsers = commonMiddleware(async (evt, ctx) => {
     statusCode: 200,
     body: JSON.stringify(users["Items"]),
   };
+})
+
+export const sendMail = commonMiddleware(async (evt, ctx) => {
+  var params = {
+    FunctionName: 'newsletter-dev-retrieveAllSubscribers', 
+    InvocationType: 'RequestResponse',
+    LogType: 'Tail',
+  };
+
+  const result = await lambda.invoke(params).promise();
+  return JSON.parse(result.Payload)
 })
 
 export const removeUser = commonMiddleware(async (evt, ctx) => {
