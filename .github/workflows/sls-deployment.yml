@@ -16,7 +16,10 @@ jobs:
         run: npm install -g serverless
 
       - name: Install Dependencies
-        run: npm i
+        run: >
+          npm i
+          serverless plugin install -n serverless-bundle
+          serverless plugin install -n serverless-cloudformation-sub-variables
 
       - name: Serverless AWS authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
