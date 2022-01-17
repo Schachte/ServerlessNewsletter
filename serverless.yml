@@ -24,7 +24,7 @@ provider:
   environment:
     STAGE: ${self:provider.stage}
     SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
-    SEND_GRID_API_KEY: ${env:SEND_GRID_KEY}
+    SEND_GRID_API_KEY: ${ SEND_GRID_API_KEY }
 
 functions:
   - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
