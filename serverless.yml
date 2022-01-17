@@ -6,6 +6,7 @@ frameworkVersion: '2'
 plugins:
   - serverless-bundle
   - serverless-cloudformation-sub-variables
+
 custom:
   SubscribedUsersTable:
     name: !Ref UsersSubscriptionTable
@@ -23,7 +24,7 @@ provider:
   environment:
     STAGE: ${self:provider.stage}
     SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
-    SEND_GRID_API_KEY: ${opt:sendgridapi, 'missing-token-for-sendgrid'}
+    SEND_GRID_API_KEY: ${env:SEND_GRID_KEY}
 
 functions:
   - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
