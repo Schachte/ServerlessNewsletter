@@ -7,7 +7,7 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
-    environment: prod
+    environment: Prod
     strategy:
       matrix:
         node-version: [14.x]
