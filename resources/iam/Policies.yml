@@ -23,3 +23,15 @@ Resources:
             Action:
               - lambda:*
             Resource: "*"
+  FullS3Access:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Sid: EnablesFullS3Access
+            Effect: Allow
+            Action:
+              - s3:*
+            Resource: "*"

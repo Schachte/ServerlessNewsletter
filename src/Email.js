@@ -1,15 +1,17 @@
 import AWS from "aws-sdk";
 import createError from "http-errors";
-import commonMiddleware from '../lib/CommonMiddleware'
-const { v4: uuidv4 } = require('uuid');
+import commonMiddleware from "../lib/CommonMiddleware";
+const { v4: uuidv4 } = require("uuid");
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const lambda = new AWS.Lambda();
 
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export const addUser = commonMiddleware(async (evt, ctx) => {
   const { email } = evt.body;
-  const uuid = uuidv4()
+  const uuid = uuidv4();
 
   if (!email) {
     return {
@@ -30,14 +32,29 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
     throw new createError.InternalServerError(err);
   }
 
+  const msg = {
+    to: email.toLowerCase(),
+    from: "noreply@ryan-schachte.com",
+    subject: "Ryan Schachte's Newsletter",
+    templateId: "d-2f73ed5dc2fa4bf4a818d21157e7cb3f",
+  };
+
+  await sgMail.send(msg);
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: "Successfully Subscribed", email }),
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Credentials": "*",
+    },
+    body: JSON.stringify({ message: "Subscribed! Check Email.", email }),
   };
-})
+});
 
 export const getUsers = commonMiddleware(async (evt, ctx) => {
-  console.log("invocation executed")
+  console.log("invocation executed");
   let users;
 
   try {
@@ -53,18 +70,18 @@ export const getUsers = commonMiddleware(async (evt, ctx) => {
     statusCode: 200,
     body: JSON.stringify(users["Items"]),
   };
-})
+});
 
 export const sendMail = commonMiddleware(async (evt, ctx) => {
   var params = {
-    FunctionName: 'newsletter-dev-retrieveAllSubscribers', 
-    InvocationType: 'RequestResponse',
-    LogType: 'Tail',
+    FunctionName: "newsletter-dev-retrieveAllSubscribers",
+    InvocationType: "RequestResponse",
+    LogType: "Tail",
   };
 
   const result = await lambda.invoke(params).promise();
-  return JSON.parse(result.Payload)
-})
+  return JSON.parse(result.Payload);
+});
 
 export const removeUser = commonMiddleware(async (evt, ctx) => {
   const body = JSON.parse(evt.body);

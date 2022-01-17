@@ -22,14 +22,18 @@ provider:
   region: us-west-2
   environment:
     SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
+    SEND_GRID_API_KEY: ${opt:sendgridapi, 'missing-token-for-sendgrid'}
 
 functions:
   - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
   - ${file(resources/lambda/NewSubscriberLambda.yml)}
-  - ${file(resources/lambda/SendMail.yml)}
+  - ${file(resources/lambda/SendMailLambda.yml)}
+  - ${file(resources/lambda/WelcomeEmailLambda.yml)}
 
 resources:
   - ${file(resources/dynamo/Tables.yml)}
   - ${file(resources/iam/LambdaPermissions.yml)}
   - ${file(resources/iam/Policies.yml)}
   - ${file(resources/iam/Roles.yml)}
+  - ${file(resources/s3/Buckets.yml)}
+  - ${file(resources/api_gateway/CORS.yml)}

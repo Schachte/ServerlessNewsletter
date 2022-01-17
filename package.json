@@ -24,7 +24,9 @@
     "@middy/http-error-handler": "^2.5.4",
     "@middy/http-event-normalizer": "^2.5.4",
     "@middy/http-json-body-parser": "^2.5.4",
+    "@sendgrid/mail": "^7.6.0",
     "http-errors": "^2.0.0",
+    "nodemailer": "^6.7.2",
     "serverless": "^2.71.0",
     "serverless-cloudformation-sub-variables": "^0.2.1"
   }

@@ -1,0 +1,31 @@
+Resources:
+  WelcomeEmailBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: welcome-email-bucket-${opt:stage, 'dev'}
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  DraftNewsletterBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: draft-newsletter-${opt:stage, 'dev'}
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  ProductionNewsletterBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: production-newsletter-${opt:stage, 'dev'}
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true

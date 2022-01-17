@@ -24,3 +24,4 @@ Resources:
       ManagedPolicyArns:
         - !Ref FullLambdaAccess
         - !Ref FullDatabaseAccess
+        - !Ref FullS3Access
