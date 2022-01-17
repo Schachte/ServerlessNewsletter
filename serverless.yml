@@ -21,6 +21,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-west-2
   environment:
+    STAGE: ${self:provider.stage}
     SUBSCRIBED_USERS_TABLE_NAME: ${self:custom.SubscribedUsersTable.name}
     SEND_GRID_API_KEY: ${opt:sendgridapi, 'missing-token-for-sendgrid'}
 

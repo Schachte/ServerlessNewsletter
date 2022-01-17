@@ -7,17 +7,19 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 const lambda = new AWS.Lambda();
 
 const sgMail = require("@sendgrid/mail");
+const STAGE = process.env.STAGE;
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export const addUser = commonMiddleware(async (evt, ctx) => {
   const { email } = evt.body;
   const uuid = uuidv4();
 
-  console.log("Getting called")
-  console.log("Testing")
+  console.log("Getting called");
+  console.log("Testing");
+  console.log(`Key is ${process.env.SEND_GRID_API_KEY}`);
 
   if (!email) {
-  console.log("Invalid Email Example")
+    console.log("Invalid Email Example");
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Invalid Email" }),
@@ -36,18 +38,21 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
     throw new createError.InternalServerError(err);
   }
 
-  const msg = {
-    to: email.toLowerCase(),
-    from: "noreply@ryan-schachte.com",
-    subject: "Ryan Schachte's Newsletter",
-    templateId: "d-2f73ed5dc2fa4bf4a818d21157e7cb3f",
-  };
-
-  console.log(`Sending email with ${process.env.SEND_GRID_API_KEY}`)
-
-  await sgMail.send(msg);
-
-  console.log(`Email Sent!`)
+  if (STAGE != "dev") {
+    const msg = {
+      to: email.toLowerCase(),
+      from: "noreply@ryan-schachte.com",
+      subject: "Ryan Schachte's Newsletter",
+      templateId: "d-2f73ed5dc2fa4bf4a818d21157e7cb3f",
+    };
+    console.log(`Sending email with ${process.env.SEND_GRID_API_KEY}`);
+    await sgMail.send(msg);
+    console.log(`Email Sent!`);
+  } else {
+    console.log(
+      "Skipping email since we are running this in staging environment"
+    );
+  }
 
   return {
     statusCode: 200,
