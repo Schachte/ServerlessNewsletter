@@ -25,5 +25,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SEND_GRID_API_KEY: ${{ secrets.SEND_GRID_API_KEY }}
+          SEND_GRID_API_KEY: tester
           SLS_DEBUG: 1
