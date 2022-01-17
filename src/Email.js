@@ -39,6 +39,8 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
     templateId: "d-2f73ed5dc2fa4bf4a818d21157e7cb3f",
   };
 
+  console.log(`Sending email with ${process.env.SEND_GRID_API_KEY}`)
+
   await sgMail.send(msg);
 
   return {
