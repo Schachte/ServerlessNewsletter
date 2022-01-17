@@ -21,15 +21,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: create env file
-        run: |
-          touch .env
-          echo SEND_GRID_API_KEY=${{ secrets.SEND_GRID_KEY }} >> .env
-          ls -la
-          pwd
-        working-directory: /home/runner/work/ServerlessNewsletter/ServerlessNewsletter/
+      # - name: create env file
+      #   run: |
+      #     touch .env
+      #     echo SEND_GRID_API_KEY=${{ secrets.SEND_GRID_KEY }} >> .env
+      #     ls -la
+      #     pwd
+      #   working-directory: /home/runner/work/ServerlessNewsletter/ServerlessNewsletter/
       - run: npm install
       - run: node ./node_modules/serverless/bin/serverless.js plugin install -n serverless-bundle
       - run: node ./node_modules/serverless/bin/serverless.js config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - run: node ./node_modules/serverless/bin/serverless.js deploy --stage=prod --verbose 
+        env:
+          SEND_GRID_API_KEY: ${{ secrets.SEND_GRID_KEY }}
         working-directory: /home/runner/work/ServerlessNewsletter/ServerlessNewsletter/

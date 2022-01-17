@@ -14,10 +14,6 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
   const { email } = evt.body;
   const uuid = uuidv4();
 
-  console.log("Getting called");
-  console.log("Testing");
-  console.log(`Key is ${process.env.SEND_GRID_API_KEY}`);
-
   if (!email) {
     console.log("Invalid Email Example");
     return {
