@@ -25,3 +25,4 @@ Resources:
         - !Ref FullLambdaAccess
         - !Ref FullDatabaseAccess
         - !Ref FullS3Access
+        - !Ref FullCloudwatchAccess
