@@ -13,7 +13,11 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
   const { email } = evt.body;
   const uuid = uuidv4();
 
+  console.log("Getting called")
+  console.log("Testing")
+
   if (!email) {
+  console.log("Invalid Email Example")
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Invalid Email" }),
@@ -42,6 +46,8 @@ export const addUser = commonMiddleware(async (evt, ctx) => {
   console.log(`Sending email with ${process.env.SEND_GRID_API_KEY}`)
 
   await sgMail.send(msg);
+
+  console.log(`Email Sent!`)
 
   return {
     statusCode: 200,
