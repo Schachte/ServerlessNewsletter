@@ -7,6 +7,7 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
+    environment: prod
     strategy:
       matrix:
         node-version: [14.x]
@@ -25,5 +26,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SEND_GRID_API_KEY: tester
+          SEND_GRID_API_KEY: ${{ secrets.SEND_GRID_API_KEY }}
           SLS_DEBUG: 1
