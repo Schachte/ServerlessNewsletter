@@ -14,7 +14,7 @@ export const unsubscribeUser = commonMiddleware(async (evt, ctx) => {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "*",
       "Access-Control-Allow-Credentials": "*",
-      Location: "https://ryan-schachte.com",
+      Location: "https://ryan-schachte.com/unsubscribed",
     },
   };
 });
