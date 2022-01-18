@@ -30,6 +30,7 @@ functions:
   - ${file(resources/lambda/RetrieveSubscribersLambda.yml)}
   - ${file(resources/lambda/NewSubscriberLambda.yml)}
   - ${file(resources/lambda/SendMailLambda.yml)}
+  - ${file(resources/lambda/Unsubscribe.yml)}
 
 resources:
   - ${file(resources/dynamo/Tables.yml)}

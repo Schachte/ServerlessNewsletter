@@ -1,0 +1,7 @@
+sendMail:
+  handler: src/Unsubscribe.unsubscribeUser
+  role: ServerlessRootAccess
+  events:
+    - http:
+        method: GET
+        path: /unsubscribe/
