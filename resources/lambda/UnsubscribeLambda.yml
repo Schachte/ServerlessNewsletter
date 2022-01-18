@@ -4,4 +4,4 @@ sendMail:
   events:
     - http:
         method: GET
-        path: /unsubscribe/
+        path: /unsubscribe
