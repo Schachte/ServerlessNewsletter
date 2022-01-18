@@ -1,4 +1,4 @@
-sendMail:
+unsubscribeUser:
   handler: src/Unsubscribe.unsubscribeUser
   role: ServerlessRootAccess
   events:
